@@ -1,4 +1,5 @@
 <template>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <div class="input">
     <input v-model="notefield" placeholder="new Note" type="text" @keyup.enter="save()">
     <button type="button" @click="save()">Save</button>
@@ -7,7 +8,8 @@
     <td colspan="2">No notes yet</td>
   </tr>
   <tr v-for="note in notes" :key="note.id">
-    <td>{{ note.name }}</td>
+    <td id="noteTr">{{ note.name }}</td>
+    <td id="delTr"><button type="button" @click="del(note.id)" style="font-size:12px" >Delete <i class="fa fa-trash-o"></i></button></td>
   </tr>
   <tr>
     <td>{{ notefield }}</td>
@@ -20,6 +22,7 @@ export default {
   name: "NoteHome",
   data() {
     return {
+      baseUrl: "http://localhost:8080/note",
       color: "black",
       notefield: "",
       notes: [],
@@ -51,7 +54,7 @@ export default {
         .catch((error) => console.log("error", error));
     },
     save () {
-      const baseUrl = "http://localhost:8080/note"
+      const baseUrl = this.baseUrl
       const endpoint = baseUrl
       const data = {
         string: this.notefield,
@@ -72,9 +75,34 @@ export default {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data)
+          this.$router.go(0);
         })
         .catch(error => console.log('error', error))
     },
+    del (id){
+      console.log("delete:", id);
+      const baseUrl = this.baseUrl;
+      const endpoint = `${baseUrl}/${id}`;
+      const data = {
+        id: id,
+      }
+      const requestOptions = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+          // Authorization: 'Bearer ' + this.accessToken
+        },
+        body: JSON.stringify(data)
+    }
+    fetch(endpoint, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data)
+          this.$router.go(0);
+        })
+        .catch(error => console.log('error', error))
+        this.$router.go(0);
+  },
     changeDarkMode() {
       if (this.darkMode) {
         this.darkMode = false;
@@ -123,4 +151,14 @@ tr{
   margin: auto;
   border-bottom: 1px solid rgb(100, 100, 100);
 }
+#delTr{
+  margin-left: auto;
+  margin-right: 2rem;
+}
+
+#noteTr{
+  margin-left: auto;
+  text-align: center;
+}
+
 </style>
