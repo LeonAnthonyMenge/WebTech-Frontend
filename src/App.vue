@@ -43,17 +43,21 @@ body {
 }
 header {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  position: relative;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
 }
 #changeDarkMode {
   display: flex;
   justify-content: flex-end;
 }
 #NavH1 {
-  margin-right: auto;
-  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
 }
 
 /* The switch - the box around the slider */
