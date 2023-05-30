@@ -1,30 +1,122 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <body :style="{ color: color }">
+    <header>
+      <h1 id="NavH1">Notes</h1>
+
+      <p>Darkmode</p>
+
+      <label @click="changeDarkMode()" class="switch">
+        <input @change="changeDarkMode" type="checkbox" id="toggleswitch" />
+        <span @change="changeDarkMode" class="slider round"></span>
+      </label>
+    </header>
+    <router-view />
+  </body>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {
+  data() {
+    return {
+      color: "black",
+      darkMode: false,
+    };
+  },
+  methods: {
+    changeDarkMode() {
+      if (this.darkMode) {
+        this.darkMode = false;
+        document.body.style.backgroundColor = "#FFFFFF";
+        this.color = "black";
+      } else {
+        this.darkMode = true;
+        document.body.style.backgroundColor = "#191919";
+        this.color = "white";
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+body {
+}
+header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+#changeDarkMode {
+  display: flex;
+  justify-content: flex-end;
+}
+#NavH1 {
+  margin-right: auto;
+  margin-left: auto;
 }
 
-nav {
-  padding: 30px;
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 1rem;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>
