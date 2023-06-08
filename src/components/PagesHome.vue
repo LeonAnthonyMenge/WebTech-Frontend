@@ -1,41 +1,45 @@
 <template>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <div class="input">
-    <input v-model="notefield" placeholder="new Note" type="text" @keyup.enter="save()">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <div class="input">
+    <input v-model="pagename" placeholder="new Page" type="text" @keyup.enter="save()">
     <button type="button" @click="save()">Save</button>
   </div>
-  <tr v-if="notes.length === 0">
+  <tr v-if="pages.length === 0">
     <td colspan="2">No notes yet</td>
   </tr>
-    <tr  v-for="note in notes" :key="note.id">
-    <td id="noteTr">{{ note.name }}</td>
-    <td id="delTr"><button type="button" @click="del(note.id)" style="font-size:12px" >Delete <i class="fa fa-trash-o"></i></button></td>
-  </tr>
-  <tr>
-    <td>{{ notefield }}</td>
+ 
+  <tr v-for="page in pages" :key="page.id">
+  <a :href="`/page/${page.id}`"> 
+    <td id="noteTr">{{ page.name }}</td>
+    <td id="delTr"><button type="button" @click="del(page.id)" style="font-size:12px" >Delete <i class="fa fa-trash-o"></i></button></td>
+  </a>
   </tr>
 
+  <tr>
+    <td>{{ pagename }}</td>
+  </tr>
 </template>
 
 <script>
 export default {
+  name: "PagesHome",
   data() {
-  return {
-    baseUrl: "http://localhost:8080",
-    pageId: this.$route.params.pageid,
-    color: "black",
-    notefield: "",
-    notes: [],
-    claims: "",
-    accessToken: "",
-    darkMode: false,
-  };
-},
+    return {
+      baseUrl: "http://localhost:8080/page",
+      color: "black",
+      pagename: "",
+      pages: [],
+      claims: "",
+      accessToken: "",
+      darkMode: false,
+      input: document.getElementById("toggleswitch"),
+    };
+  },
   methods: {
-    loadThings() {
+    loadPages() {
       console.log("load");
-      const baseUrl = this.baseUrl + "/page/notes";
-      const endpoint = baseUrl + `/${this.pageId}`;
+      const baseUrl = this.baseUrl;
+      const endpoint = baseUrl;
       const requestOptions = {
         method: "GET",
         redirect: "follow",
@@ -46,18 +50,17 @@ export default {
       fetch(endpoint, requestOptions)
         .then((response) => response.json())
         .then((result) =>
-          result.forEach((note) => {
-            this.notes.push(note);
+          result.forEach((page) => {
+            this.pages.push(page);
           })
         )
         .catch((error) => console.log("error", error));
     },
     save () {
       const baseUrl = this.baseUrl
-      const endpoint = `${baseUrl}/page/note/${this.pageId}`;
+      const endpoint = baseUrl
       const data = {
-        string: this.notefield,
-        //pageId: this.pageId,
+        name: this.pagename,
       }
       const requestOptions = {
         method: 'POST',
@@ -67,7 +70,7 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      if(this.notefield === '') {
+      if(this.pagename === '') {
         console.log("empty field");
         return;
       }  
@@ -121,42 +124,9 @@ export default {
     },
   },
   async created() {
-    this.pageId = this.$route.params.pageId;
     await this.setup();
-    this.loadThings();
+    this.loadPages();
   },
   mounted() {},
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped> 
-.input{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: auto;
-}
-button{
-  margin:0.5rem;
-}
-tr{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: auto;
-  border-bottom: 1px solid rgb(100, 100, 100);
-}
-#delTr{
-  margin-left: auto;
-  margin-right: 2rem;
-}
-
-#noteTr{
-  margin-left: auto;
-  text-align: center;
-}
-
-</style>

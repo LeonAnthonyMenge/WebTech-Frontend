@@ -39,8 +39,7 @@ export default {
 </script>
 
 <style scoped>
-body {
-}
+
 header {
   display: flex;
   align-items: center;
