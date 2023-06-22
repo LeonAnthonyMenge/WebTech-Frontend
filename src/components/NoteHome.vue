@@ -1,28 +1,44 @@
 <template>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <div class="input">
-    <input v-model="notefield" placeholder="new Note" type="text" @keyup.enter="save()">
-    <button type="button" @click="save()">Save</button>
-  </div>
-  <tr v-if="notes.length === 0">
-    <td colspan="2">No notes yet</td>
-  </tr>
-    <tr  v-for="note in notes" :key="note.id">
-    <td id="noteTr">{{ note.name }}</td>
-    <td id="delTr"><button type="button" @click="del(note.id)" style="font-size:12px" >Delete <i class="fa fa-trash-o"></i></button></td>
-  </tr>
-  <tr>
-    <td>{{ notefield }}</td>
-  </tr>
+  <body>
+    
+    <table id="listOfNotes">
+
+      <tr id="noNotes" v-if="notes.length === 0">
+        <td colspan="2">No notes yet. Create new note</td>
+      </tr>
+
+      <tr v-for="note in notes" :key="note.id" class="noteRow">
+        <div class="noteContent">
+          <p class="noteName">{{ note.name }}</p>
+          <button class="del" type="button" @click="del(note.id)">
+            <i class="fa fa-trash-o"></i>
+          </button>
+        </div>
+      </tr>
+
+      <tr>
+        <td colspan="2" class="input">
+            <input id="newNotes" v-model="notefield" placeholder="new Note" @keyup.enter="save()" type="text">
+            <button id="saveNote" class="save" type="button" @click="save()">Save</button>
+          </td>
+      </tr>
+
+    </table>  
+
+  </body>  
 
 </template>
 
 <script>
+
+
 export default {
+  name: "NoteHome",
   data() {
   return {
     baseUrl: "http://localhost:8080",
-    pageId: this.$route.params.pageid,
+    pageId: 0,
     color: "black",
     notefield: "",
     notes: [],
@@ -32,7 +48,7 @@ export default {
   };
 },
   methods: {
-    loadThings() {
+    loadNotes() {
       console.log("load");
       const baseUrl = this.baseUrl + "/page/notes";
       const endpoint = baseUrl + `/${this.pageId}`;
@@ -75,15 +91,18 @@ export default {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data)
+          this.notes.push(data);
+          this.notefield = "";
         })
         .catch(error => console.log('error', error))
     },
     del (id){
       console.log("delete:", id);
       const baseUrl = this.baseUrl;
-      const endpoint = `${baseUrl}/${id}`;
+      const endpoint = `${baseUrl}/note/delete/${id}`;
+      console.log("DeleteNote endpoint:   " + endpoint);
       const data = {
-        id: id,
+        id: id
       }
       const requestOptions = {
         method: 'DELETE',
@@ -94,14 +113,16 @@ export default {
         body: JSON.stringify(data)
     }
     fetch(endpoint, requestOptions)
-        .then(response => response.json())
         .then(data => {
           console.log('Success:', data)
-          this.$router.go(0);
         })
         .catch(error => console.log('error', error))
-        this.$router.go(0);
-  },
+
+        //try to solve better
+        if (this.$router && this.$router.go) { // Überprüft, ob this.$router und this.$router.go definiert sind
+          this.$router.go(); // Ruft die go()-Methode des Routers auf, um die Seite zu aktualisieren
+        }
+      },
     changeDarkMode() {
       if (this.darkMode) {
         this.darkMode = false;
@@ -114,6 +135,7 @@ export default {
       }
     },
     async setup() {
+      console.log((this.pageName))
       if (this.$root.authenticated) {
         this.claims = await this.$auth.getUser();
         // this.accessToken = await this.$auth.getAccessToken()
@@ -121,9 +143,12 @@ export default {
     },
   },
   async created() {
-    this.pageId = this.$route.params.pageId;
+    if (this.$route && this.$route.params) {
+      this.pageId = this.$route.params.pageId;
+    }
+    console.log("Props:   "+this.props);
     await this.setup();
-    this.loadThings();
+    this.loadNotes();
   },
   mounted() {},
 };
@@ -131,32 +156,98 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped> 
-.input{
+  body {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: auto;
-}
-button{
-  margin:0.5rem;
-}
-tr{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: auto;
-  border-bottom: 1px solid rgb(100, 100, 100);
-}
-#delTr{
-  margin-left: auto;
-  margin-right: 2rem;
+  width: 100%;
 }
 
-#noteTr{
+#listOfNotes {
+  margin-top: 3rem;
   margin-left: auto;
+  margin-right: auto;
+}
+
+.noteRow {
+  text-align: center; 
+  height: 2px;
+  font-size: 16px;
+}
+
+.noteContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(167, 137, 41, 0.329);
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  height: 5vh;
+}
+
+.noteName {
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+:hover.noteName{
+  color: rgb(50,50,50);
+}
+
+
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(167, 137, 41, 0.329);
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 16px;
+  margin-top: 16px;
+  height: 5vh;
+}
+
+#newNotes{
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.save {
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-weight: 600
+}
+
+:hover.save{
+  background-color: rgb(141, 137, 137);
+}
+
+.del {
+  margin-right: 10px;
+  background-color: transparent;
+  border: none;
+  color: #f80000;
+  font-size: 24px;
+}
+
+:hover.del{
+  cursor: pointer;
+  color: #ff4f4f;
+}
+
+
+#noNotes{
   text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 </style>

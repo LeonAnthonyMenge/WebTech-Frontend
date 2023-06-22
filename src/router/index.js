@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import PagesHome from "../components/PagesHome.vue";
-import NotePage from "../components/NoteHome.vue";
+import PagesHome from "../views/PageView.vue";
+import NotePage from "../views/NoteView.vue";
 console.log(PagesHome);
 
 const routes = [
@@ -10,7 +10,7 @@ const routes = [
     component: PagesHome,
   },
   {
-    path: "/page/:pageId",
+    path: "/page/:pageName/:pageId",
     name: "NotePage",
     component: NotePage,
     props: true,
