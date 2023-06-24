@@ -99,7 +99,7 @@ export default {
     del (id){
       console.log("delete:", id);
       const baseUrl = this.baseUrl;
-      const endpoint = `${baseUrl}/note/delete/${id}`;
+      const endpoint = `${baseUrl}/deleteById/note/${id}`;
       console.log("DeleteNote endpoint:   " + endpoint);
       const data = {
         id: id

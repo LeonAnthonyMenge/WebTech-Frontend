@@ -15,7 +15,7 @@ describe('PagesHome component', () => {
         expect(wrapper.vm).toBeTruthy();
     });
 
-    test('renders the title of the component', () => {
+    test('renders the name of a page', () => {
         const wrapper = shallowMount(PagesHome, {
             data(){
                 return {

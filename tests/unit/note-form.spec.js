@@ -18,7 +18,7 @@ describe('NoteHome component', () => {
         expect(wrapper.vm).toBeTruthy();
     });
 
-    test('renders the title of the component', () => {
+    test('renders the name of a note', () => {
         const testNote = "Test is rendered perfectly";
         const wrapper = shallowMount(NoteHome, {
             data() {
@@ -132,7 +132,7 @@ describe('NoteHome component', () => {
         await wrapper.vm.del(1);
 
         // Verify that the API call was made with the correct URL and payload
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/note/delete/1', {
+        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/deleteById/note/1', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
