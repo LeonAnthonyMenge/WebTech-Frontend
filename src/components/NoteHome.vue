@@ -37,7 +37,7 @@ export default {
   name: "NoteHome",
   data() {
   return {
-    baseUrl: "http://localhost:8080",
+    baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
     pageId: 0,
     color: "black",
     notefield: "",

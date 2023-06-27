@@ -38,7 +38,7 @@ export default {
   props: ['title'],
   data() {
     return {
-      baseUrl: "http://localhost:8080/page",
+      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
       color: "black",
       pagename: "",
       pages: [],
