@@ -4,4 +4,5 @@ module.exports = defineConfig({
   devServer: {
     port: 3000,
   },
+  publicPath: '/webtech-frontend/',
 });
