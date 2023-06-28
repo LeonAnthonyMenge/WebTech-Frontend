@@ -37,7 +37,7 @@ export default {
   name: "NoteHome",
   data() {
   return {
-    baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/WebTech-Frontend",
+    baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
     pageId: 0,
     color: "black",
     notefield: "",
@@ -51,7 +51,7 @@ export default {
     loadNotes() {
       console.log("load");
       const baseUrl = this.baseUrl + "/page/notes";
-      const endpoint = baseUrl + `/${this.pageId}`;
+      const endpoint = baseUrl + `/WebTech-Frontend/${this.pageId}`;
       const requestOptions = {
         method: "GET",
         redirect: "follow",
