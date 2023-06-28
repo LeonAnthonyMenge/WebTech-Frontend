@@ -1,13 +1,13 @@
 {
-  "name": "vue-frontend",
+  "name": "WebTech-Frontend",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "engines": {
     "node": "18.x",
     "npm": "9.x"
   },
-  "homepage" : "https://leonanthonymenge.github.io/WebTech-Frontend/",
   "scripts": {
+    "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
