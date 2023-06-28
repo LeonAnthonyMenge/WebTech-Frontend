@@ -39,7 +39,7 @@ export default {
   props: ['title'],
   data() {
     return {
-      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/page",
+      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/WebTech-Frontend/page",
       pagename: "",
       pages: [],
       claims: "",
