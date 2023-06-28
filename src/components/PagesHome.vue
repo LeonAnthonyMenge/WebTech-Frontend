@@ -10,7 +10,7 @@
 
         <tr v-for="page in pages" :key="page.id" class="pageRow" >
           <div class="pageContent">
-            <a class="plain-link" :href="`/WebTech-Frontend/page/${page.name}/${page.id}`">
+            <a class="plain-link" :href="`/page/${page.name}/${page.id}`">
               <h2 class="pageName" >{{ page.name }}</h2>
             </a>
             <button class="del" type="button" @click="del(page.id)">
@@ -39,7 +39,7 @@ export default {
   props: ['title'],
   data() {
     return {
-      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/WebTech-Frontend/page",
+      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/page",
       pagename: "",
       pages: [],
       claims: "",

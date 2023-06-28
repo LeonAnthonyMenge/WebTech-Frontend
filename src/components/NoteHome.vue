@@ -37,7 +37,7 @@ export default {
   name: "NoteHome",
   data() {
   return {
-    baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
+    baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/WebTech-Frontend",
     pageId: 0,
     color: "black",
     notefield: "",
