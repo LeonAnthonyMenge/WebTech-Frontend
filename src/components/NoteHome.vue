@@ -193,11 +193,6 @@ export default {
   padding: 0;
 }
 
-:hover.noteName{
-  color: rgb(50,50,50);
-}
-
-
 .input {
   display: flex;
   align-items: center;

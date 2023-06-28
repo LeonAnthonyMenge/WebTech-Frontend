@@ -12,6 +12,9 @@ describe('NoteHome component', () => {
         fetchMock.resetMocks();
     });
 
+    const url = process.env.VUE_APP_BACKEND_BASE_URL;
+
+
     test('is a Vue instance', () => {
         const wrapper = shallowMount(NoteHome);
 
@@ -83,7 +86,7 @@ describe('NoteHome component', () => {
         await wrapper.vm.loadNotes();
 
         // Verify that the API call was made with the correct URL
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/page/notes/1', expect.anything());
+        expect(fetch).toHaveBeenCalledWith(url+'/page/notes/1', expect.anything());
 
         // Verify that the notes data property is updated correctly
         expect(wrapper.vm.notes).toEqual(mockResponse);
@@ -113,7 +116,7 @@ describe('NoteHome component', () => {
         await wrapper.vm.save();
 
         // Verify that the API call was made with the correct URL and payload
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/page/note/1', {
+        expect(fetch).toHaveBeenCalledWith(url+'/page/note/1', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -126,13 +129,22 @@ describe('NoteHome component', () => {
         const mockResponse = { success: true };
         fetch.mockResponseOnce(JSON.stringify(mockResponse));
 
-        const wrapper = shallowMount(NoteHome);
-
+        const wrapper = shallowMount(NoteHome, {
+            data() {
+                return {
+                    pageId: 1,
+                    notes: [
+                        { id: 1, name: 'Note 1' },
+                        { id: 2, name: 'Note 2' }
+                    ]
+                };
+            }
+        });
         // Call the del method with an ID
         await wrapper.vm.del(1);
 
         // Verify that the API call was made with the correct URL and payload
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/deleteById/note/1', {
+        expect(fetch).toHaveBeenCalledWith(url+'/deleteById/note/1', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

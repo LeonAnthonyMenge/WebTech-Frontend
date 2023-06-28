@@ -8,6 +8,8 @@ describe('PagesHome component', () => {
         fetch.resetMocks();
     });
 
+    const url = process.env.VUE_APP_BACKEND_BASE_URL;
+
 
     test('is a Vue instance', () => {
         const wrapper = shallowMount(PagesHome);
@@ -77,7 +79,7 @@ describe('PagesHome component', () => {
         await wrapper.vm.loadPages();
 
         // Verify that the API call was made with the correct URL
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/page', expect.anything());
+        expect(fetch).toHaveBeenCalledWith(url +'/page', expect.anything());
 
         // Verify that the pages data property is updated correctly
         expect(wrapper.vm.pages).toEqual(mockResponse);
@@ -94,7 +96,7 @@ describe('PagesHome component', () => {
         await wrapper.vm.del(1);
 
         // Verify that the API call was made with the correct URL and payload
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/page/1', {
+        expect(fetch).toHaveBeenCalledWith(url + '/page/1', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

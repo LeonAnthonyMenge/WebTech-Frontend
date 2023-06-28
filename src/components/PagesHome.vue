@@ -8,22 +8,21 @@
           <td colspan="2">No pages yet. Create new page</td>
         </tr>
 
-        <tr v-for="page in pages" :key="page.id" class="pageRow">
+        <tr v-for="page in pages" :key="page.id" class="pageRow" >
           <div class="pageContent">
             <a class="plain-link" :href="`/page/${page.name}/${page.id}`">
-              <h2 class="pageName">{{ page.name }}</h2>
+              <h2 class="pageName" >{{ page.name }}</h2>
             </a>
-              <button class="del" type="button" @click="del(page.id)">
-                <i class="fa fa-trash-o"></i>
-              </button>
+            <button class="del" type="button" @click="del(page.id)">
+              <i class="fa fa-trash-o" ></i>
+            </button>
           </div>
-
         </tr>
 
         <tr>
-          <td colspan="2" class="input">
+          <td colspan="2" class="input" >
             <input id="newPage" v-model="pagename" placeholder="new Page (name)" @keyup.enter="save()" type="text">
-            <button id="savePage" class="save" type="button" @click="save()">Save</button>
+            <button id="savePage" class="save" type="button" @click="save()" >Save</button>
           </td>
         </tr>
 
@@ -33,19 +32,20 @@
 </template>
 
 <script>
+import HeaderBar from "@/components/HeaderBar";
+
 export default {
   name: "PagesHome",
   props: ['title'],
   data() {
     return {
-      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
-      color: "black",
+      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/page",
       pagename: "",
       pages: [],
       claims: "",
       accessToken: "",
-      darkMode: false,
       input: document.getElementById("toggleswitch"),
+      textcolor: HeaderBar.data().textcolor
     };
   },
   methods: {

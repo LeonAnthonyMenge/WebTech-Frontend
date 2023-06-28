@@ -7,34 +7,42 @@
     <h1 id="NavH1">{{ header }}</h1>
     <p>Darkmode</p>
 
-    <label @click="changeDarkMode()" class="switch">
+    <label class="switch">
       <input @change="changeDarkMode" type="checkbox" id="toggleswitch" />
-      <span @change="changeDarkMode" class="slider round"></span>
+      <span class="slider round"></span>
     </label>
   </header>
   </body>
 </template>
 
 <script>
+
 export default {
   props: ['header'],
   data() {
     return {
       color: "black",
       darkMode: false,
+      textcolor: "black"
     };
   },
   methods: {
     changeDarkMode() {
-      console.log(this.header);
+      console.log(this.header === true);
       if (this.darkMode) {
+        console.log("bbb  true");
         this.darkMode = false;
+        this.textcolor = "black";
         document.body.style.backgroundColor = "#FFFFFF";
         this.color = "black";
+        document.body.style.color = "black";
       } else {
+        console.log("bbb  false")
         this.darkMode = true;
         document.body.style.backgroundColor = "#191919";
+        document.body.style.color = "white";
         this.color = "white";
+        this.textcolor = "black";
       }
     },
   }
