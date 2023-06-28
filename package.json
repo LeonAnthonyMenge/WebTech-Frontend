@@ -1,11 +1,12 @@
 {
   "name": "vue-frontend",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "engines": {
     "node": "18.x",
     "npm": "9.x"
   },
+  "homepage" : "https://leonanthonymenge.github.io/WebTech-Frontend/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
