@@ -51,7 +51,7 @@ export default {
     loadNotes() {
       console.log("load");
       const baseUrl = this.baseUrl + "/page/notes";
-      const endpoint = baseUrl + `/WebTech-Frontend/${this.pageId}`;
+      const endpoint = baseUrl + `/${this.pageId}`;
       const requestOptions = {
         method: "GET",
         redirect: "follow",
