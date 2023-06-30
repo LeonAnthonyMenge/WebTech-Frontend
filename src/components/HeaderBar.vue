@@ -1,7 +1,7 @@
 <template>
   <body :style="{ color: color }">
   <header>
-    <a class="plain-link" href="./">
+    <a class="plain-link" href="/WebTech-Frontend/">
      <i class="fa fa-home"></i>
     </a>
     <h1 id="NavH1">{{ header }}</h1>
