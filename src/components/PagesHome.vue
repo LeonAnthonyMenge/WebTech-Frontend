@@ -49,16 +49,17 @@ export default {
     };
   },
   methods: {
-    loadPages() {
+    async loadPages() {
+      let accessToken = await this.$auth.getAccessToken();
       console.log("load");
-      const baseUrl = this.baseUrl;
+      const baseUrl = this.baseUrl + "/" + this.claims;
       const endpoint = baseUrl;
       const requestOptions = {
         method: "GET",
         redirect: "follow",
-        // headers: {
-        //   Authorization: 'Bearer ' + this.accessToken
-        // }
+         headers: {
+           Authorization: 'Bearer ' + accessToken
+         }
       };
       fetch(endpoint, requestOptions)
         .then((response) => response.json())
@@ -71,7 +72,7 @@ export default {
     },
     save() {
       const baseUrl = this.baseUrl;
-      const endpoint = baseUrl;
+      const endpoint = baseUrl + "/" + this.claims;
       const data = {
         name: this.pagename,
       };
@@ -99,7 +100,7 @@ export default {
     del(id) {
       console.log("delete:  ", id);
       const baseUrl = this.baseUrl;
-      const endpoint = `${baseUrl}/${id}`;
+      const endpoint = `${baseUrl}/${id}` + "/" + this.claims;
       const requestOptions = {
         method: 'DELETE',
         headers: {
@@ -123,8 +124,8 @@ export default {
     async setup() {
       if (this.$root.authenticated) {
         this.claims = await this.$auth.getUser();
-        // this.accessToken = await this.$auth.getAccessToken()
-      }
+      // this.accessToken = await this.$auth.getAccessToken()
+    }
     },
   },
   async created() {

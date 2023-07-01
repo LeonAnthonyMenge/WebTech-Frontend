@@ -135,7 +135,6 @@ export default {
       }
     },
     async setup() {
-      console.log((this.pageName))
       if (this.$root.authenticated) {
         this.claims = await this.$auth.getUser();
         // this.accessToken = await this.$auth.getAccessToken()
