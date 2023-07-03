@@ -1,11 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PagesHome from "../views/PageView.vue";
 import NotePage from "../views/NoteView.vue";
+import LoginView from "../views/LoginView.vue";
+import SignupView from "../views/SignupView.vue";
+
+
 console.log(PagesHome);
 
 const routes = [
   {
-    path: "/",
+    path: "/page/:ownerId",
     name: "PagesHome",
     component: PagesHome,
   },
@@ -13,6 +17,16 @@ const routes = [
     path: "/page/:pageName/:pageId",
     name: "NotePage",
     component: NotePage,
+    props: true,
+  },
+  {
+    path: "/login",
+    component: LoginView,
+    props: true,
+  },
+  {
+    path: "/signup",
+    component: SignupView,
     props: true,
   },
   {

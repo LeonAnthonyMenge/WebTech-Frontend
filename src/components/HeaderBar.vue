@@ -1,8 +1,9 @@
 <template>
   <body :style="{ color: color }">
   <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <a class="plain-link" href="/WebTech-Frontend/">
-     <i class="fa fa-home"></i>
+      <i class="fa fa-home plain-link"></i>
     </a>
     <h1 id="NavH1">{{ header }}</h1>
     <p>Darkmode</p>
