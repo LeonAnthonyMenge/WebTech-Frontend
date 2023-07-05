@@ -2,11 +2,11 @@
   <body :style="{ color: color }">
   <header>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <a class="plain-link" href="/WebTech-Frontend/">
+    <a @click="logout" class="plain-link" href="/WebTech-Frontend/">
       <i class="fa fa-home plain-link"></i>
     </a>
     <h1 id="NavH1">{{ header }}</h1>
-    <p>Darkmode</p>
+    <p>Darkmode:</p>
 
     <label class="switch">
       <input @change="changeDarkMode" type="checkbox" id="toggleswitch" />
@@ -18,34 +18,56 @@
 
 <script>
 
+import App from "@/App";
+
 export default {
   props: ['header'],
   data() {
     return {
+      create: true,
       color: "black",
-      darkMode: false,
+      darkMode: App.methods.getDarkMode(),
       textcolor: "black"
     };
   },
   methods: {
     changeDarkMode() {
-      console.log(this.header === true);
-      if (this.darkMode) {
-        console.log("bbb  true");
-        this.darkMode = false;
+      if (App.methods.getDarkMode()) {
+        App.methods.setDarkMode(false);
         this.textcolor = "black";
         document.body.style.backgroundColor = "#FFFFFF";
         this.color = "black";
         document.body.style.color = "black";
       } else {
-        console.log("bbb  false")
-        this.darkMode = true;
+        if(!this.create) {
+          App.methods.setDarkMode(true);
+        }
         document.body.style.backgroundColor = "#191919";
         document.body.style.color = "white";
         this.color = "white";
         this.textcolor = "black";
+
       }
     },
+    logout(){
+      App.methods.setIsLoggedIn(false);
+    },
+    createDarkMode(){
+      if(App.methods.getDarkMode()){
+        document.body.style.backgroundColor = "#191919";
+        document.body.style.color = "white";
+        this.color = "white";
+        this.textcolor = "black";
+      }else{
+        this.textcolor = "black";
+        document.body.style.backgroundColor = "#FFFFFF";
+        this.color = "black";
+        document.body.style.color = "black";
+      }
+    }
+  },
+  created() {
+    this.createDarkMode();
   }
 };
 </script>

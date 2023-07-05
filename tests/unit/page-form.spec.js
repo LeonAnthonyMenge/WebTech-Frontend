@@ -1,11 +1,13 @@
 import { shallowMount } from '@vue/test-utils';
 import PagesHome from '@/components/PagesHome.vue';
 import fetchMock from "jest-fetch-mock";
+import App from "@/App";
 
 describe('PagesHome component', () => {
     beforeEach(() => {
         fetchMock.enableMocks();
         fetch.resetMocks();
+        App.methods.setIsLoggedIn(true);
     });
 
     const url = process.env.VUE_APP_BACKEND_BASE_URL;
@@ -65,21 +67,29 @@ describe('PagesHome component', () => {
         fetch.mockResponseOnce(JSON.stringify(mockResponse));
 
         const wrapper = shallowMount(PagesHome, {
-            data(){
-                return{
+            mocks: {
+                $route: {
+                    params: {
+                        ownerId: '1',
+                    },
+                },
+            },
+            data() {
+                return {
                     pages: [
                         { id: 1, name: 'Page 1' },
-                        { id: 2, name: 'Page 2' }
-                    ]
-                }
-            }
+                        { id: 2, name: 'Page 2' },
+                    ],
+                    ownerId: 1
+                };
+            },
         });
 
         // Wait for the loadPages method to complete
         await wrapper.vm.loadPages();
 
         // Verify that the API call was made with the correct URL
-        expect(fetch).toHaveBeenCalledWith(url +'/page', expect.anything());
+        expect(fetch).toHaveBeenCalledWith(url +'/pagebyowner/1', expect.anything());
 
         // Verify that the pages data property is updated correctly
         expect(wrapper.vm.pages).toEqual(mockResponse);
@@ -96,7 +106,7 @@ describe('PagesHome component', () => {
         await wrapper.vm.del(1);
 
         // Verify that the API call was made with the correct URL and payload
-        expect(fetch).toHaveBeenCalledWith(url + '/page/1', {
+        expect(fetch).toHaveBeenCalledWith(url + '/deletepage/1', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,12 +1,14 @@
 import { shallowMount } from '@vue/test-utils';
 import NoteHome from '@/components/NoteHome.vue';
 import fetchMock from 'jest-fetch-mock';
+import App from "@/App";
 
 
 describe('NoteHome component', () => {
     beforeEach(() => {
         fetchMock.enableMocks();
         fetch.resetMocks();
+        App.methods.setIsLoggedIn(true);
     });
     afterEach(() => {
         fetchMock.resetMocks();
@@ -54,6 +56,7 @@ describe('NoteHome component', () => {
     test('calls save note button', () => {
         const wrapper = shallowMount(NoteHome);
         const saveNote = jest.fn();
+
         wrapper.vm.save = saveNote;
 
         // Simulate a button click

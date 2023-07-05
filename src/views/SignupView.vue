@@ -24,12 +24,12 @@
   </div>
 </template>
 
-
 <script>
 import { defineComponent } from 'vue';
+import { mapMutations } from 'vuex';
 import axios from 'axios';
 import HeaderBar from "@/components/HeaderBar.vue";
-
+import App from "@/App";
 
 export default defineComponent({
   components: { HeaderBar },
@@ -48,6 +48,7 @@ export default defineComponent({
     };
   },
   methods: {
+    ...mapMutations(['setIsLoggedIn']),
     encodeCredentials() {
       this.encode_email = btoa(this.email);
       this.encode_password = btoa(this.password);
@@ -65,6 +66,7 @@ export default defineComponent({
         });
 
         if (response.data.success) {
+          App.methods.setIsLoggedIn(true);
           this.$router.push(`./page/${response.data.id}`);
         } else {
           // Anzeige einer Fehlermeldung oder anderer Logik bei ungültigen Anmeldeinformationen
@@ -126,5 +128,3 @@ button:disabled {
   cursor: not-allowed;
 }
 </style>
-
-

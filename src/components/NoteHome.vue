@@ -4,8 +4,12 @@
     
     <table id="listOfNotes">
 
-      <tr id="noNotes" v-if="notes.length === 0">
+      <tr id="noNotes" v-if="notes.length === 0 && isLoggedIn">
         <td colspan="2">No notes yet. Create new note</td>
+      </tr>
+
+      <tr id="noPages" v-if="isLoggedIn == false">
+        <td colspan="2">Please <a href="/WebTech-Frontend/login">Sign in</a>.</td>
       </tr>
 
       <tr v-for="note in notes" :key="note.id" class="noteRow">
@@ -17,7 +21,7 @@
         </div>
       </tr>
 
-      <tr>
+      <tr v-if="isLoggedIn">
         <td colspan="2" class="input">
             <input id="newNotes" v-model="notefield" placeholder="new Note" @keyup.enter="save()" type="text">
             <button id="saveNote" class="save" type="button" @click="save()">Save</button>
@@ -33,12 +37,16 @@
 <script>
 
 
+
+import App from "@/App";
+
 export default {
   name: "NoteHome",
   data() {
   return {
     baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
     pageId: 0,
+    isLoggedIn: App.methods.getIsLoggedIn(),
     color: "black",
     notefield: "",
     notes: [],
@@ -69,6 +77,7 @@ export default {
         .catch((error) => console.log("error", error));
     },
     save () {
+      this.stayLoggedIn();
       const baseUrl = this.baseUrl
       const endpoint = `${baseUrl}/page/note/${this.pageId}`;
       const data = {
@@ -97,6 +106,7 @@ export default {
         .catch(error => console.log('error', error))
     },
     del (id){
+      this.stayLoggedIn();
       console.log("delete:", id);
       const baseUrl = this.baseUrl;
       const endpoint = `${baseUrl}/deleteById/note/${id}`;
@@ -134,11 +144,12 @@ export default {
         this.color = "white";
       }
     },
-    async setup() {
-      console.log((this.pageName))
-      if (this.$root.authenticated) {
-        this.claims = await this.$auth.getUser();
-        // this.accessToken = await this.$auth.getAccessToken()
+    stayLoggedIn(){
+      App.methods.setIsLoggedIn(true);
+    },
+    setup() {
+      if(App.methods.getIsLoggedIn()){
+        this.loadNotes();
       }
     },
   },
@@ -148,7 +159,6 @@ export default {
     }
     console.log("Props:   "+this.props);
     await this.setup();
-    this.loadNotes();
   },
   mounted() {},
 };

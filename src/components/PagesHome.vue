@@ -4,13 +4,17 @@
 
       <table id="listOfPages">
 
-        <tr id="noPages" v-if="pages.length === 0">
+        <tr id="noPages" v-if="pages.length === 0 && isLoggedIn">
           <td colspan="2">No pages yet. Create new page</td>
+        </tr>
+
+        <tr id="noPages" v-if="isLoggedIn == false">
+          <td colspan="2">Please <a href="/WebTech-Frontend/login">Sign in</a>.</td>
         </tr>
 
         <tr v-for="page in pages" :key="page.id" class="pageRow" >
           <div class="pageContent">
-            <a class="plain-link" :href="`/WebTech-Frontend/page/${page.name}/${page.id}`">
+            <a class="plain-link" @click="stayLoggedIn" :href="`/WebTech-Frontend/page/${page.name}/${page.id}`">
               <h2 class="pageName" >{{ page.name }}</h2>
             </a>
             <button class="del" type="button" @click="del(page.id)">
@@ -19,7 +23,7 @@
           </div>
         </tr>
 
-        <tr>
+        <tr v-if="isLoggedIn">
           <td colspan="2" class="input" >
             <input id="newPage" v-model="pagename" placeholder="new Page (name)" @keyup.enter="save()" type="text">
             <button id="savePage" class="save" type="button" @click="save()" >Save</button>
@@ -32,18 +36,21 @@
 </template>
 
 <script>
+
 import HeaderBar from "@/components/HeaderBar";
+import App from "@/App";
 
 export default {
   name: "PagesHome",
   props: ['title'],
   data() {
     return {
-      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL + "/page",
+      baseUrl: process.env.VUE_APP_BACKEND_BASE_URL,
       pagename: "",
       ownerId: 0,
       pages: [],
       claims: "",
+      isLoggedIn: App.methods.getIsLoggedIn(),
       accessToken: "",
       input: document.getElementById("toggleswitch"),
       textcolor: HeaderBar.data().textcolor
@@ -51,8 +58,9 @@ export default {
   },
   methods: {
     loadPages() {
+      this.stayLoggedIn();
       console.log("load");
-      const baseUrl = this.baseUrl;
+      const baseUrl = this.baseUrl+ "/pagebyowner/" + this.ownerId;
       const endpoint = baseUrl;
       const requestOptions = {
         method: "GET",
@@ -71,35 +79,37 @@ export default {
         .catch((error) => console.log("error", error));
     },
     save() {
-      const baseUrl = this.baseUrl;
-      const endpoint = baseUrl;
-      const data = {
-        name: this.pagename,
-      };
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
-      console.log('requestOptions:', requestOptions);
-      if (this.pagename === "") {
-        console.log("empty field");
-        return;
-      }
-      fetch(endpoint, requestOptions)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Success:", data);
-            this.pages.push(data);
-            this.pagename = "";
-          })
-          .catch((error) => console.log("error", error));
+      this.stayLoggedIn();
+       const baseUrl = this.baseUrl
+       const endpoint = `${baseUrl}/create-page/${this.ownerId}`;
+       const data = {
+         string: this.pagename,
+       }
+       const requestOptions = {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json'
+           // Authorization: 'Bearer ' + this.accessToken
+         },
+         body: JSON.stringify(data)
+       }
+       if(this.pagename === '') {
+         console.log("empty field");
+         return;
+       }
+       fetch(endpoint, requestOptions)
+           .then(response => response.json())
+           .then(data => {
+             console.log('Success:', data)
+             this.pages.push(data);
+             this.pagename = "";
+           })
+           .catch(error => console.log('error', error))
     },
     del(id) {
+      this.stayLoggedIn();
       console.log("delete:  ", id);
-      const baseUrl = this.baseUrl;
+      const baseUrl = this.baseUrl+ "/deletepage";
       const endpoint = `${baseUrl}/${id}`;
       const requestOptions = {
         method: 'DELETE',
@@ -121,17 +131,21 @@ export default {
         this.$router.go();
       }
     },
+    stayLoggedIn(){
+      App.methods.setIsLoggedIn(true);
+    },
     async setup() {
-      if (this.$root.authenticated) {
-        this.claims = await this.$auth.getUser();
-        // this.accessToken = await this.$auth.getAccessToken()
+      console.log(App.methods.getIsLoggedIn());
+      if(App.methods.getIsLoggedIn()){
+        this.loadPages();
       }
     },
   },
   async created() {
-    this.ownerId = this.$route.params.ownerId;
+    if(this.$router){
+      this.ownerId = this.$route.params.ownerId;
+    }
     await this.setup();
-    this.loadPages();
   },
   mounted() {},
 };
