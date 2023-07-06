@@ -20,8 +20,8 @@
       <input type="password" id="password" v-model="password">
 
       <button @click="signup">Signup</button>
+      <p v-if="registrationError" style="color: red;">Registration failed. Please check your information and try again.</p>
       <p>Back to <a href="./login">login</a></p>
-
     </div>
   </div>
 </template>
@@ -47,7 +47,8 @@ export default defineComponent({
       encode_password: '',
       encode_lastname: '',
       encode_firstname: '',
-      loggingIn: true
+      loggingIn: true,
+      registrationError: false
     };
   },
   methods: {
@@ -59,6 +60,10 @@ export default defineComponent({
       this.encode_firstname = btoa(this.firstname);
     },
     async signup() {
+      if(this.firstname == "" || this.lastname == "" || this.email == "" || this.password == ""){
+        this.registrationError = true;
+        return;
+      }
       try {
         await this.encodeCredentials();
         const response = await axios.post(this.baseUrl + '/api/registration', {
@@ -74,11 +79,11 @@ export default defineComponent({
           App.methods.setUserId(response.data.id);
           this.$router.push(`./page/${response.data.id}`);
         } else {
-          // Anzeige einer Fehlermeldung oder anderer Logik bei ungültigen Anmeldeinformationen
+          this.registrationError = true;
         }
       } catch (error) {
         console.error(error);
-        // Behandlung von Fehlern bei der Kommunikation mit dem Backend
+        this.registrationError = true;
       }
     }
   }

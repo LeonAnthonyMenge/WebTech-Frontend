@@ -14,6 +14,7 @@
       <a href="./signup"> Sign Up!</a>
     </div>
     <button @click="login">Login</button>
+    <p v-if="registrationError" style="color: red;">Registration failed. Please check your information and try again.</p>
   </div>
 </template>
 
@@ -35,7 +36,8 @@ export default defineComponent({
       password: '',
       encode_email: '',
       encode_password: '',
-      loggingIn: true
+      loggingIn: true,
+      registrationError: false
     };
   },
   methods: {
@@ -58,11 +60,11 @@ export default defineComponent({
             App.methods.setUserId(response.data.id);
             await this.$router.push(`./page/${response.data.id}`);
         } else {
-          // Anzeige einer Fehlermeldung oder anderer Logik bei ungültigen Anmeldeinformationen
+          this.registrationError = true;
         }
       } catch (error) {
         console.error(error);
-        // Behandlung von Fehlern bei der Kommunikation mit dem Backend
+        this.registrationError = true;
       }
     }
   }
