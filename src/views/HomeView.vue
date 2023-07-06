@@ -20,7 +20,8 @@
 
         <div class="pictureLeft">
             <h3>WebTech-Projekt</h3>
-            <p>Im Rahmen des Programmierprojektes im dritten Semester an der HTW-Berlin, ist diese Notiz-App entstanden. Im Frontend wurde auf das Vue.js Framework gesetzt und das Backand basiert auf Java. Um das die Programmierung des Backends zu erleichtern wurde auf Spring Boot zurück gegriffen. Die Repositories sind öffentlich verfügbar. Hier kommen Sie zum <a href="">Frontend-Repository</a> und hier zum <a href="">Backend Repository</a>. Programmiert wurde diese App von Maik Peters und Leon Menge. Im folgenden Tei dieser Homepage werden die Funktionen und besonderheiten dieser App erklärt.</p>
+            <p>Im Rahmen des Programmierprojektes im dritten Semester an der HTW-Berlin, ist diese Notiz-App entstanden. Im Frontend wurde auf das Vue.js Framework gesetzt und das Backand basiert auf Java. Um das die Programmierung des Backends zu erleichtern wurde auf Spring Boot zurück gegriffen. Die Repositories sind öffentlich verfügbar.
+              Hier kommen Sie zum <a href="https://github.com/LeonAnthonyMenge/WebTech-Frontend">Frontend-Repository</a> und hier zum <a href="https://github.com/LeonAnthonyMenge/WebTech-Projekt">Backend Repository</a>. Programmiert wurde diese App von Maik Peters und Leon Menge. Im folgenden Tei dieser Homepage werden die Funktionen und besonderheiten dieser App erklärt.</p>
         </div>
         <div class="pictureRight">
             <h3>Login</h3>
