@@ -1,6 +1,10 @@
 <template>
-  <HeaderBar header="Notes" />
+
+    <HeaderBar header="Notes" />
+
+<div class="pages">
   <PagesHome/>
+</div>
 </template>
 
 <script>
@@ -15,3 +19,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.pages{
+  text-align: center;
+  max-width: 110rem;
+  margin-top: 4rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

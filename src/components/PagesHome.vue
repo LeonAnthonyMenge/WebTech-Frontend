@@ -78,7 +78,7 @@ export default {
         )
         .catch((error) => console.log("error", error));
     },
-    save() {
+    async save() {
       this.stayLoggedIn();
        const baseUrl = this.baseUrl
        const endpoint = `${baseUrl}/create-page/${this.ownerId}`;
@@ -97,7 +97,7 @@ export default {
          console.log("empty field");
          return;
        }
-       fetch(endpoint, requestOptions)
+       await fetch(endpoint, requestOptions)
            .then(response => response.json())
            .then(data => {
              console.log('Success:', data)
@@ -106,7 +106,7 @@ export default {
            })
            .catch(error => console.log('error', error))
     },
-    del(id) {
+    async del(id) {
       this.stayLoggedIn();
       console.log("delete:  ", id);
       const baseUrl = this.baseUrl+ "/deletepage";
@@ -117,7 +117,7 @@ export default {
           'Content-Type': 'application/json'
         }
       };
-      fetch(endpoint, requestOptions)
+      await fetch(endpoint, requestOptions)
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
