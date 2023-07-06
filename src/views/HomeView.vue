@@ -21,7 +21,7 @@
         <div class="pictureLeft">
             <h3>WebTech-Projekt</h3>
             <p>Im Rahmen des Programmierprojektes im dritten Semester an der HTW-Berlin, ist diese Notiz-App entstanden. Im Frontend wurde auf das Vue.js Framework gesetzt und das Backand basiert auf Java. Um das die Programmierung des Backends zu erleichtern wurde auf Spring Boot zurück gegriffen. Die Repositories sind öffentlich verfügbar.
-              Hier kommen Sie zum <a href="https://github.com/LeonAnthonyMenge/WebTech-Frontend">Frontend-Repository</a> und hier zum <a href="https://github.com/LeonAnthonyMenge/WebTech-Projekt">Backend Repository</a>. Programmiert wurde diese App von Maik Peters und Leon Menge. Im folgenden Tei dieser Homepage werden die Funktionen und besonderheiten dieser App erklärt.</p>
+              Hier kommen Sie zum <a href="https://github.com/LeonAnthonyMenge/WebTech-Frontend">Frontend-Repository</a> und hier zum <a href="https://github.com/LeonAnthonyMenge/WebTech-Projekt">Backend Repository</a>. Programmiert wurde diese App von Maik Peters und Leon Menge. Im folgenden Teil dieser Homepage werden die Funktionen und besonderheiten dieser App erklärt.</p>
         </div>
         <div class="pictureRight">
             <h3>Login</h3>
@@ -45,11 +45,11 @@
         </div>
         <div class="pictureLeft">
           <h3>WebSecurity</h3>
-          <p>Wie oben schon beschrieben findet die kommunikation von Passwörtern E-Mails etc. nut verschlüsselt zwischen Front- und Backend statt. Das Passwort wird gehasht + salt in der Datenbank gespeichert, was den zugriff für dritte stark erschwert. Auf einzelne Seiten und  Notizen kann nur zugegriffen werden, wenn man sich vorher angemeldet hat.</p>
+          <p>Wie oben schon beschrieben findet die kommunikation von Passwörtern E-Mails etc. nur verschlüsselt zwischen Front- und Backend statt. Das Passwort wird gehasht + salt in der Datenbank gespeichert, was den zugriff für dritte stark erschwert. Auf einzelne Seiten und  Notizen kann nur zugegriffen werden, wenn man sich vorher angemeldet hat.</p>
         </div>
       <div class="pictureRight">
         <h3>Style</h3>
-        <p>Diese App verwendet auf der Homepage im Content eine andere Schriftart. Wie oben schon beschrieben kann mittels eines Buttons zwischen Dark- und Lightmode gewechselt werden. Durch die nutzung eines Local Storages innerhalb der App Komponente muss der Darkmode auch nicht auf jeder Seite erneut eingestellt werden. Durch das selbe Prinzip wird sichergestellt, dass der Nutzerbezogene Inhalt nur für angemeldete nutzer sichtbar ist und geladen wird. Die Navigation Bar oben ist fixiert und somit weiterhin erreichbar wenn der Nutzer nach ganz unten Scrollt.</p>
+        <p>Diese App verwendet auf der Homepage im Content eine andere Schriftart. Wie oben schon beschrieben kann mittels eines Buttons zwischen Dark- und Lightmode gewechselt werden. Durch die nutzung eines Local Storages innerhalb der App Komponente muss der Darkmode auch nicht auf jeder Seite erneut eingestellt werden. Durch das selbe Prinzip wird sichergestellt, dass der Nutzerbezogene Inhalt nur für angemeldete Nutzer sichtbar ist und geladen wird. Die Navigation Bar oben ist fixiert und somit weiterhin erreichbar wenn der Nutzer nach ganz unten Scrollt.</p>
       </div>
 
     </div>
