@@ -4,11 +4,11 @@
 
       <table id="listOfPages">
 
-        <tr id="noPages" v-if="pages.length === 0 && isLoggedIn">
+        <tr id="noPages" v-if="pages.length === 0 && app_userId == ownerId">
           <td colspan="2">No pages yet. Create new page</td>
         </tr>
 
-        <tr id="noPages" v-if="isLoggedIn == false">
+        <tr id="noPages" v-if="isLoggedIn == false || app_userId != ownerId">
           <td colspan="2">Please <a href="/WebTech-Frontend/login">Sign in</a>.</td>
         </tr>
 
@@ -23,7 +23,7 @@
           </div>
         </tr>
 
-        <tr v-if="isLoggedIn">
+        <tr v-if="isLoggedIn && app_userId == ownerId">
           <td colspan="2" class="input" >
             <input id="newPage" v-model="pagename" placeholder="new Page (name)" @keyup.enter="save()" type="text">
             <button id="savePage" class="save" type="button" @click="save()" >Save</button>
@@ -53,7 +53,8 @@ export default {
       isLoggedIn: App.methods.getIsLoggedIn(),
       accessToken: "",
       input: document.getElementById("toggleswitch"),
-      textcolor: HeaderBar.data().textcolor
+      textcolor: HeaderBar.data().textcolor,
+      app_userId: -1
     };
   },
   methods: {
@@ -136,7 +137,7 @@ export default {
     },
     async setup() {
       console.log(App.methods.getIsLoggedIn());
-      if(App.methods.getIsLoggedIn()){
+      if(App.methods.getIsLoggedIn() && App.methods.getUserId() == this.ownerId){
         this.loadPages();
       }
     },
@@ -145,6 +146,7 @@ export default {
     if(this.$router){
       this.ownerId = this.$route.params.ownerId;
     }
+    this.app_userId = App.methods.getUserId();
     await this.setup();
   },
   mounted() {},

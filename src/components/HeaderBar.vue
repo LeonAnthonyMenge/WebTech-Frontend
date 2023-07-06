@@ -37,9 +37,7 @@ export default {
         this.color = "black";
         document.body.style.color = "black";
       } else {
-        if(!this.create) {
-          App.methods.setDarkMode(true);
-        }
+        App.methods.setDarkMode(true);
         document.body.style.backgroundColor = "#191919";
         document.body.style.color = "white";
         this.color = "white";
@@ -49,6 +47,7 @@ export default {
     },
     logout(){
       App.methods.setIsLoggedIn(false);
+      App.methods.setUserId(0);
     },
     createDarkMode(){
       if(App.methods.getDarkMode()){

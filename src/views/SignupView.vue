@@ -20,6 +20,8 @@
       <input type="password" id="password" v-model="password">
 
       <button @click="signup">Signup</button>
+      <p>Back to <a href="./login">login</a></p>
+
     </div>
   </div>
 </template>
@@ -44,7 +46,8 @@ export default defineComponent({
       encode_email: '',
       encode_password: '',
       encode_lastname: '',
-      encode_firstname: ''
+      encode_firstname: '',
+      loggingIn: true
     };
   },
   methods: {
@@ -65,8 +68,10 @@ export default defineComponent({
           firstname: this.encode_firstname
         });
 
-        if (response.data.success) {
+        if (response.data.success && this.loggingIn) {
           App.methods.setIsLoggedIn(true);
+          this.loggingIn = false;
+          App.methods.setUserId(response.data.id);
           this.$router.push(`./page/${response.data.id}`);
         } else {
           // Anzeige einer Fehlermeldung oder anderer Logik bei ungültigen Anmeldeinformationen
@@ -88,7 +93,7 @@ export default defineComponent({
   justify-content: center;
   max-width: 24rem;
   margin: auto;
-  margin-top: auto;
+  margin-top: 4rem;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;

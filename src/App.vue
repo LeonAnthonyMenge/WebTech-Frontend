@@ -9,7 +9,8 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      darkMode: false
+      darkMode: false,
+      userId: 0
     };
   },
   methods: {
@@ -28,11 +29,20 @@ export default {
     setDarkMode(value){
       this.darkMode = value;
       localStorage.setItem("darkMode", JSON.stringify(value));
+    },
+    getUserId(){
+      const userId = localStorage.getItem("userId");
+      return userId ? JSON.parse(userId) : 0;
+    },
+    setUserId(value){
+      this.userId = value;
+      localStorage.setItem("userId", JSON.stringify(value));
     }
   },
   created() {
     this.isLoggedIn = this.getIsLoggedIn();
     this.darkMode = this.getDarkMode();
+    this.userId = this.getUserId();
   },
 };
 
